@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Threading;
 using System.Diagnostics;
 using System.Web.Mvc;
 
@@ -27,6 +24,13 @@ namespace CodeDocsWS.Controllers
         {
             Trace.TraceInformation("In contact function that returns Actionresult");
             ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+
+        public ActionResult WarmUp()
+        {
+            Thread.Sleep(30000); //sleep for thirty seconds
 
             return View();
         }
