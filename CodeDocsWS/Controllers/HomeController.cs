@@ -15,7 +15,8 @@ namespace CodeDocsWS.Controllers
         public ActionResult About()
         {
             Trace.TraceInformation("In About funciton that returns ActionResult");
-            ViewBag.Message = "Your application description page.";
+            string currentTime = System.DateTime.Now.ToLongTimeString();
+            ViewBag.Message = "Your application description page. the time is: " + currentTime;
 
             return View();
         }
