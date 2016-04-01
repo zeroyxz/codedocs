@@ -177,6 +177,7 @@
     <Content Include="ClassDiagram1.cd" />
     <Content Include="Deployment\pre.bat" />
     <Content Include="Deployment\post.bat" />
+    <None Include="Properties\PublishProfiles\CodeDocs - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -230,8 +231,10 @@
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="HelloWorld">
-    <Message Text="Hello"></Message>
-    <Message Text="World"></Message>
+    <Message Text="Hello">
+    </Message>
+    <Message Text="World">
+    </Message>
   </Target>
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
     <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />

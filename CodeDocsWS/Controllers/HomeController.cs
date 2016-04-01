@@ -17,7 +17,7 @@ namespace CodeDocsWS.Controllers
             Trace.TraceInformation("In About funciton that returns ActionResult");
             string currentTime = System.DateTime.Now.ToLongTimeString();
             ViewBag.Message = "Your application description page. the time is: " + currentTime;
-
+            //Changed here as well
             return View();
         }
 
