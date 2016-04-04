@@ -10,19 +10,22 @@ namespace CodeDocsWS.Models
 {
     public class ImageDetails:TableEntity
     {
+        public string BlobUrl { get; set; }
+
+        public string ThumbNailUrl { get; set; }
         public ImageDetails()
         {
             
         }
 
-        public ImageDetails(Guid guid)
+        public ImageDetails(Guid guid, string blobUrl)
         {
             this.PartitionKey = "image";
             this.RowKey = guid.ToString();
-
-            //we could also store further information about who uploaded it - copyright etc.
-            
+            this.BlobUrl = blobUrl;                       
         }
+
+        pu
 
         
     }

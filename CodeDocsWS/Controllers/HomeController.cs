@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Configuration;
 using System.Threading;
 using System.Diagnostics;
@@ -46,30 +47,41 @@ namespace CodeDocsWS.Controllers
 
             if (image != null)
             {
-                string conStr = ConfigurationManager.ConnectionStrings["MyConnString"].ConnectionString;
-                CloudStorageAccount storage = CloudStorageAccount.Parse(conStr);
+                try
+                {
 
-                CloudBlobClient blobClient = storage.CreateCloudBlobClient();
-                CloudBlobContainer container = blobClient.GetContainerReference("images");//has to be lower-case
-                container.CreateIfNotExists();
+                    Guid id = Guid.NewGuid(); //id for new image uploaded
+                    ViewBag.Guid = id.ToString();
 
-                System.Guid id = new System.Guid();
-                CloudBlockBlob block = container.GetBlockBlobReference(id.ToString());
+                    string conStr = ConfigurationManager.ConnectionStrings["MyConnString"].ConnectionString;                    
+                    ViewBag.ConnectionString = conStr;
+                    
+                    CloudStorageAccount storage = CloudStorageAccount.Parse(conStr);
 
+                    CloudBlobClient blobClient = storage.CreateCloudBlobClient();
 
-                block.UploadFromStream(image.InputStream);
+                    CloudBlobContainer container = blobClient.GetContainerReference("images");//has to be lower-case
+                    container.CreateIfNotExists();
+                    
+                    CloudBlockBlob block = container.GetBlockBlobReference(id.ToString());
+                    block.UploadFromStream(image.InputStream);
 
-                //A blob is uniquely identified by it's url so we will store a guid and a url in an azure table
-                CloudTableClient tableCLient = storage.CreateCloudTableClient();
-                CloudTable table = tableCLient.GetTableReference("images");
-                table.CreateIfNotExists();
+                    //A blob is uniquely identified by it's url so we will store a guid and a url in an azure table
+                    CloudTableClient tableCLient = storage.CreateCloudTableClient();
+                    CloudTable table = tableCLient.GetTableReference("images");
+                    table.CreateIfNotExists();
 
-                ImageDetails image_details = new ImageDetails(id);
-                TableOperation insertOperation = TableOperation.Insert(image_details);
+                    ImageDetails image_details = new ImageDetails(id, block.Uri.ToString());
+                    TableOperation insertOperation = TableOperation.Insert(image_details);
 
-                table.Execute(insertOperation);
+                    table.Execute(insertOperation);
 
-                ViewBag.Message = "Your image has been uploaded,....I think :).";
+                    ViewBag.Message = "Your image has been uploaded,....I think :).";
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.message = ex.ToString();
+                }
 
             }
             else
