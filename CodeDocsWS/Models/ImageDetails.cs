@@ -23,9 +23,7 @@ namespace CodeDocsWS.Models
             this.PartitionKey = "image";
             this.RowKey = guid.ToString();
             this.BlobUrl = blobUrl;                       
-        }
-
-        pu
+        }     
 
         
     }
